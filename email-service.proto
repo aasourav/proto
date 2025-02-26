@@ -12,5 +12,5 @@ message MailServiceResponse{
 }
 
 service EmailService{
-    rpc EmailService(MailServiceRequest) returns (MailServiceResponse);
+    rpc SendVerificationEmail(MailServiceRequest) returns (MailServiceResponse);
 }

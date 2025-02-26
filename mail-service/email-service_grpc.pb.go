@@ -19,14 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	EmailService_EmailService_FullMethodName = "/EmailService/EmailService"
+	EmailService_SendVerificationEmail_FullMethodName = "/EmailService/SendVerificationEmail"
 )
 
 // EmailServiceClient is the client API for EmailService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type EmailServiceClient interface {
-	EmailService(ctx context.Context, in *MailServiceRequest, opts ...grpc.CallOption) (*MailServiceResponse, error)
+	SendVerificationEmail(ctx context.Context, in *MailServiceRequest, opts ...grpc.CallOption) (*MailServiceResponse, error)
 }
 
 type emailServiceClient struct {
@@ -37,10 +37,10 @@ func NewEmailServiceClient(cc grpc.ClientConnInterface) EmailServiceClient {
 	return &emailServiceClient{cc}
 }
 
-func (c *emailServiceClient) EmailService(ctx context.Context, in *MailServiceRequest, opts ...grpc.CallOption) (*MailServiceResponse, error) {
+func (c *emailServiceClient) SendVerificationEmail(ctx context.Context, in *MailServiceRequest, opts ...grpc.CallOption) (*MailServiceResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(MailServiceResponse)
-	err := c.cc.Invoke(ctx, EmailService_EmailService_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, EmailService_SendVerificationEmail_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func (c *emailServiceClient) EmailService(ctx context.Context, in *MailServiceRe
 // All implementations must embed UnimplementedEmailServiceServer
 // for forward compatibility.
 type EmailServiceServer interface {
-	EmailService(context.Context, *MailServiceRequest) (*MailServiceResponse, error)
+	SendVerificationEmail(context.Context, *MailServiceRequest) (*MailServiceResponse, error)
 	mustEmbedUnimplementedEmailServiceServer()
 }
 
@@ -62,8 +62,8 @@ type EmailServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedEmailServiceServer struct{}
 
-func (UnimplementedEmailServiceServer) EmailService(context.Context, *MailServiceRequest) (*MailServiceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method EmailService not implemented")
+func (UnimplementedEmailServiceServer) SendVerificationEmail(context.Context, *MailServiceRequest) (*MailServiceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendVerificationEmail not implemented")
 }
 func (UnimplementedEmailServiceServer) mustEmbedUnimplementedEmailServiceServer() {}
 func (UnimplementedEmailServiceServer) testEmbeddedByValue()                      {}
@@ -86,20 +86,20 @@ func RegisterEmailServiceServer(s grpc.ServiceRegistrar, srv EmailServiceServer)
 	s.RegisterService(&EmailService_ServiceDesc, srv)
 }
 
-func _EmailService_EmailService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _EmailService_SendVerificationEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MailServiceRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(EmailServiceServer).EmailService(ctx, in)
+		return srv.(EmailServiceServer).SendVerificationEmail(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: EmailService_EmailService_FullMethodName,
+		FullMethod: EmailService_SendVerificationEmail_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EmailServiceServer).EmailService(ctx, req.(*MailServiceRequest))
+		return srv.(EmailServiceServer).SendVerificationEmail(ctx, req.(*MailServiceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -112,8 +112,8 @@ var EmailService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*EmailServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "EmailService",
-			Handler:    _EmailService_EmailService_Handler,
+			MethodName: "SendVerificationEmail",
+			Handler:    _EmailService_SendVerificationEmail_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
